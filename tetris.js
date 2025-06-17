@@ -5,6 +5,9 @@ let gameInterval;
 let timeInterval;
 let gameTime = 180;
 
+// Store intervals for keys that are being held down
+const keyIntervals = {};
+
 const pieces = [
   [[1, 1, 1, 1]], // I
   [[0, 1, 0], [1, 1, 1]], // T
@@ -121,11 +124,35 @@ const move = (dir) => {
   }
 }
 
+// Handle continuous movement when keys are held down
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowUp') rotate(currentPiece.shape);
-  if (e.key === 'ArrowRight') move(1);
-  if (e.key === 'ArrowDown') update();
-  if (e.key === 'ArrowLeft') move(-1);
+  if (e.repeat) return; // ignore auto-repeat as we handle it manually
+  if (e.key === 'ArrowUp') {
+    rotate(currentPiece.shape);
+    return;
+  }
+
+  const startInterval = (key, action) => {
+    action();
+    keyIntervals[key] = setInterval(action, 100);
+  };
+
+  if (e.key === 'ArrowRight' && !keyIntervals[e.key]) {
+    startInterval(e.key, () => move(1));
+  }
+  if (e.key === 'ArrowLeft' && !keyIntervals[e.key]) {
+    startInterval(e.key, () => move(-1));
+  }
+  if (e.key === 'ArrowDown' && !keyIntervals[e.key]) {
+    startInterval(e.key, update);
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  if (keyIntervals[e.key]) {
+    clearInterval(keyIntervals[e.key]);
+    delete keyIntervals[e.key];
+  }
 });
 
 document.getElementById('start').addEventListener('click', () => {
