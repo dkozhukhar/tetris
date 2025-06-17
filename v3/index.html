@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Tetris v3</title>
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #board {
+      position: relative;
+      height: 600px;
+      width: 300px;
+      margin: 0 auto;
+      border: 2px solid #444;
+      background: linear-gradient(#222, #555);
+    }
+    .square {
+      position: absolute;
+      height: 29px;
+      width: 29px;
+      box-sizing: border-box;
+      border: 1px solid #444;
+    }
+    #controls {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tetris v3</h1>
+  <div id="board"></div>
+  <div id="controls">
+    <button id="start">Start</button>
+    <p id="score"></p>
+    <p id="time"></p>
+  </div>
+  <script src="tetris.js"></script>
+</body>
+</html>
