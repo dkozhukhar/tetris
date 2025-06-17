@@ -113,12 +113,14 @@ const rotate = () => {
   const newShape = currentPiece.shape[0].map((_, i) => currentPiece.shape.map(row => row[i]).reverse());
   if (canMoveTo(newShape, currentPiece.x, currentPiece.y)) {
     currentPiece.shape = newShape;
+    drawBoard();
   }
 };
 
 const move = (dir) => {
   if (canMoveTo(currentPiece.shape, currentPiece.x + dir, currentPiece.y)) {
     currentPiece.x += dir;
+    drawBoard();
   }
 };
 
